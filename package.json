@@ -2,7 +2,10 @@
   "name": "create-node-package",
   "version": "1.0.0",
   "description": "Generates a node module template with CHANGELOG, build, deployment, jest, linter and more. All configured and ready to use.",
-  "main": "index.js",
+  "main": "bin/cli.js",
+  "bin": {
+    "create-node-package": "./bin/cli.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,11 +13,19 @@
     "type": "git",
     "url": "git+https://github.com/DanMat/create-node-package.git"
   },
-  "keywords": ["cli", "node-module-template"],
+  "keywords": [
+    "cli",
+    "node-module-template"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/DanMat/create-node-package/issues"
   },
-  "homepage": "https://github.com/DanMat/create-node-package#readme"
+  "homepage": "https://github.com/DanMat/create-node-package#readme",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "mkdirp": "^1.0.4",
+    "prompts": "^2.4.0"
+  }
 }
