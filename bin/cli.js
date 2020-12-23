@@ -16,7 +16,7 @@ const runCLI = async () => {
 		const { userInputFolderName } = await prompts([{
 			type: 'text',
 			name: 'userInputFolderName',
-			message: 'The name of local folder you would like to create'
+			message: 'Enter the name of the folder you would like to create for this template'
 		}]);
 		validFolderName = await isProjectDirValid(userInputFolderName);
 
@@ -28,13 +28,13 @@ const runCLI = async () => {
 	}
 
 	let validPackageName = false;
-	let projectName;
+	let packageName;
 
 	while(!validPackageName) {
 		const { userInputPkgName } = await prompts([{
 			type: 'text',
 			name: 'userInputPkgName',
-			message: 'The name of your npm module?'
+			message: 'Enter a name for this package'
 		}]);
 		
 		let errorMessage = "The package name is either taken or is not a valid format";
@@ -45,14 +45,14 @@ const runCLI = async () => {
 		}
 		
 		if(validPackageName) {
-			projectName = userInputPkgName;
+			packageName = userInputPkgName;
 		} else {
 			console.error(chalk.red(errorMessage));
 		}
 	}
 
 	const response = await prompts(questions);
-	console.log(projectName, response)
+	console.log({packageName, ...response})
 }
 
 runCLI().catch(err => {
