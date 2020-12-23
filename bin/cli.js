@@ -13,17 +13,17 @@ const runCLI = async () => {
 
 	let validFolderName = false;
 	while(!validFolderName) {
-		const userInputFolder = await prompts([{
+		const { userInputFolderName } = await prompts([{
 			type: 'text',
-			name: 'name',
+			name: 'userInputFolderName',
 			message: 'The name of local folder you would like to create'
 		}]);
-		validFolderName = await isProjectDirValid(userInputFolder.name);
+		validFolderName = await isProjectDirValid(userInputFolderName);
 
 		if(validFolderName) {
-			createProjectDir(userInputFolder.name);
+			createProjectDir(userInputFolderName);
 		} else {
-			console.error(chalk.red(`'${userInputFolder.name}' folder already exists.`))
+			console.error(chalk.red(`'${userInputFolderName}' folder already exists.`))
 		}
 	}
 
@@ -31,15 +31,15 @@ const runCLI = async () => {
 	let projectName;
 
 	while(!validPackageName) {
-		const userInputPkg = await prompts([{
+		const { userInputPkgName } = await prompts([{
 			type: 'text',
-			name: 'name',
+			name: 'userInputPkgName',
 			message: 'The name of your npm module?'
 		}]);
 		
-		validPackageName = await isPackageNameValid(userInputPkg.name);
+		validPackageName = await isPackageNameValid(userInputPkgName);
 		if(validPackageName) {
-			projectName = userInputPkg.name;
+			projectName = userInputPkgName;
 		} else {
 			console.error(chalk.red("The package name is either taken or is not a valid format"))
 		}
