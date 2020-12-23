@@ -37,11 +37,17 @@ const runCLI = async () => {
 			message: 'The name of your npm module?'
 		}]);
 		
-		validPackageName = await isPackageNameValid(userInputPkgName);
+		let errorMessage = "The package name is either taken or is not a valid format";
+		try {
+			validPackageName = await isPackageNameValid(userInputPkgName);
+		} catch(e) {
+			errorMessage = e.toString()
+		}
+		
 		if(validPackageName) {
 			projectName = userInputPkgName;
 		} else {
-			console.error(chalk.red("The package name is either taken or is not a valid format"))
+			console.error(chalk.red(errorMessage));
 		}
 	}
 
