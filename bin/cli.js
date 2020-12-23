@@ -4,8 +4,8 @@ const prompts = require('prompts');
 const chalk = require('chalk');
 
 
-const { questions } = require('./src/questions');
-const {  isProjectDirValid, createProjectDir, isPackageNameValid } = require('./src/pkgFolderNameHelper');
+const { questions } = require('../src/questions');
+const {  isProjectDirValid, createProjectDir, isPackageNameValid } = require('../src/pkgFolderNameHelper');
 
 const runCLI = async () => {
 	console.info(chalk.blue.bold('\nNode Package Generator'));
