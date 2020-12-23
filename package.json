@@ -25,6 +25,7 @@
   "homepage": "https://github.com/DanMat/create-node-package#readme",
   "dependencies": {
     "chalk": "^4.1.0",
+    "check-folder-exists": "^0.1.1",
     "mkdirp": "^1.0.4",
     "npm-name": "^6.0.1",
     "prompts": "^2.4.0",

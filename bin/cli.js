@@ -5,25 +5,27 @@ const chalk = require('chalk');
 
 
 const { questions } = require('./src/questions');
-const { createProjectDir, isPackageNameValid } = require('./src/packageNameHelper');
-
-const [,, ...args] = process.argv;
-const [folderName] = args;
-
+const {  isProjectDirValid, createProjectDir, isPackageNameValid } = require('./src/pkgFolderNameHelper');
 
 const runCLI = async () => {
-	if(!folderName) {
-		console.log(chalk.red('Specify folder name to generate the template files'));
-		process.exit(1);
-	}
-
-	if(!createProjectDir(folderName)) {
-		console.log(chalk.red(`Folder ${chalk.bold(folderName)} already exists!!`));
-		process.exit(1);
-	}
-
 	console.info(chalk.blue.bold('\nNode Package Generator'));
-	console.log(chalk.italic('Press enter if the default value is the same\n'));
+	console.log(chalk.italic('Let\'s get started by creating a new local folder for your template.\n'));
+
+	let validFolderName = false;
+	while(!validFolderName) {
+		const userInputFolder = await prompts([{
+			type: 'text',
+			name: 'name',
+			message: 'The name of local folder you would like to create'
+		}]);
+		validFolderName = await isProjectDirValid(userInputFolder.name);
+
+		if(validFolderName) {
+			createProjectDir(userInputFolder.name);
+		} else {
+			console.error(chalk.red(`'${userInputFolder.name}' folder already exists.`))
+		}
+	}
 
 	let validPackageName = false;
 	let projectName;
