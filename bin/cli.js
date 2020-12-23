@@ -6,21 +6,26 @@ const chalk = require('chalk');
 
 const { questions } = require('../src/questions');
 const {  isProjectDirValid, createProjectDir, isPackageNameValid } = require('../src/pkgFolderNameHelper');
+const { BYE_BYE_VERBIAGE, BYE_BYE_NOT_SORRY_VERBIAGE} = require('../src/constants');
 
 const runCLI = async () => {
 	console.info(chalk.blue.bold('\nNode Package Generator'));
 	console.log(chalk.italic('Let\'s get started by creating a new local folder for your template.\n'));
 
 	let validFolderName = false;
+	let projectFolder;
 	while(!validFolderName) {
 		const { userInputFolderName } = await prompts([{
 			type: 'text',
 			name: 'userInputFolderName',
 			message: 'Enter the name of the folder you would like to create for this template'
-		}]);
+		}], { onCancel: () => {
+			throw new Error(BYE_BYE_VERBIAGE);
+		} });
 		validFolderName = await isProjectDirValid(userInputFolderName);
 
 		if(validFolderName) {
+			projectFolder = userInputFolderName;
 			createProjectDir(userInputFolderName);
 		} else {
 			console.error(chalk.red(`'${userInputFolderName}' folder already exists.`))
@@ -35,7 +40,9 @@ const runCLI = async () => {
 			type: 'text',
 			name: 'userInputPkgName',
 			message: 'Enter a name for this package'
-		}]);
+		}], { onCancel: () => {
+			throw new Error(BYE_BYE_NOT_SORRY_VERBIAGE(projectFolder));
+		}});
 		
 		let errorMessage = "The package name is either taken or is not a valid format";
 		try {
@@ -51,7 +58,11 @@ const runCLI = async () => {
 		}
 	}
 
-	const response = await prompts(questions);
+	const response = await prompts(questions, {
+		onCancel: () => {
+			throw new Error(BYE_BYE_NOT_SORRY_VERBIAGE(projectFolder));
+		}
+	});
 	console.log({packageName, ...response})
 }
 
