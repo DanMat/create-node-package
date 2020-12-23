@@ -1,0 +1,3 @@
+[submodule "template/node-module-template"]
+	path = template/node-module-template
+	url = https://github.com/DanMat/node-module-template.git
