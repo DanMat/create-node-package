@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+const yeoman = require('yeoman-environment');
+const env = yeoman.createEnv();
+
 const prompts = require('prompts');
 const chalk = require('chalk');
 
@@ -7,6 +10,8 @@ const chalk = require('chalk');
 const { questions } = require('../src/questions');
 const {  isProjectDirValid, createProjectDir, isPackageNameValid } = require('../src/pkgFolderNameHelper');
 const { BYE_BYE_VERBIAGE, BYE_BYE_NOT_SORRY_VERBIAGE} = require('../src/constants');
+
+const templateGenerator = require('../src/generator');
 
 const runCLI = async () => {
 	console.info(chalk.blue.bold('\nNode Package Generator'));
@@ -63,7 +68,14 @@ const runCLI = async () => {
 			throw new Error(BYE_BYE_NOT_SORRY_VERBIAGE(projectFolder));
 		}
 	});
-	console.log({packageName, ...response})
+
+	env.registerStub(templateGenerator, 'npm:template');
+	env.run('npm:template', {
+		templateName: 'node-module-template',
+		projectFolder, 
+		packageName, 
+		...response
+	});
 }
 
 runCLI().catch(err => {

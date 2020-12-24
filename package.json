@@ -29,6 +29,8 @@
     "mkdirp": "^1.0.4",
     "npm-name": "^6.0.1",
     "prompts": "^2.4.0",
-    "validate-npm-package-name": "^3.0.0"
+    "validate-npm-package-name": "^3.0.0",
+    "yeoman-environment": "^2.10.3",
+    "yeoman-generator": "^4.12.0"
   }
 }
