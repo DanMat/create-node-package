@@ -35,7 +35,15 @@ module.exports = class extends Generator {
 		this.fs.move(this.destinationPath('_package.json'), this.destinationPath('package.json'));
 
 		this.fs.delete(this.destinationPath('.git'));
+		
+		this.log('Initializing github...');
 
+		this.spawnCommandSync('git', ['init', '--quiet']);
+
+		this.log('NPM install');
+		this.spawnCommandSync('nvm', ['install'])
+		this.spawnCommandSync('nvm', ['use'])
+		
 		this.installDependencies({
 			bower: false,
 			npm: true
@@ -44,6 +52,8 @@ module.exports = class extends Generator {
 	}
 
 	end() {
+		this.spawnCommandSync('git', ['add', '.', '--all']);
+    	this.spawnCommandSync('git', ['commit', '-m', 'Initial Commit', '--quiet']);
 		this.log('Your template has been created.')
 	}
 }
