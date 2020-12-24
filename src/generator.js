@@ -34,8 +34,10 @@ module.exports = class extends Generator {
 		this.fs.move(this.destinationPath('_gitignore'), this.destinationPath('.gitignore'));
 		this.fs.move(this.destinationPath('_package.json'), this.destinationPath('package.json'));
 
+		this.fs.delete(this.destinationPath('.git'));
+
 		this.installDependencies({
-			bower: true,
+			bower: false,
 			npm: true
 		});
 
