@@ -1,9 +1,0 @@
-[submodule "template/node-module-template"]
-	path = template/node-module-template
-	url = https://github.com/DanMat/node-module-template.git
-[submodule "src/template/node-module-template"]
-	path = src/template/node-module-template
-	url = https://github.com/DanMat/node-module-template.git
-[submodule "src/npm-package-templates"]
-	path = src/npm-package-templates
-	url = https://github.com/DanMat/npm-package-templates.git
