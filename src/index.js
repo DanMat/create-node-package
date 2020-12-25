@@ -1,14 +1,8 @@
-import yargs from 'yargs';
+import figlet from 'figlet';
 
-import { VERBIAGE } from './constants';
+const LOGO = 'CREATE DEPLOY NODE PACKAGES';
+const FONT_STYLE = 'contessa';
 
 export const runCLI = async _args => {
-	const options = yargs.usage('Usage: -n <name>').option('n', {
-		alias: 'name',
-		describe: 'Your name',
-		type: 'string',
-		demandOption: true
-	}).argv;
-
-	console.log(`Hello, ${options.name}. ${VERBIAGE}`);
+	console.log(figlet.textSync(LOGO, FONT_STYLE));
 };
