@@ -64,7 +64,7 @@ export default [
 			'stream',
 			'util',
 			'buffer',
-			'yargs'
+			'listr'
 		]
 	}
 ];
