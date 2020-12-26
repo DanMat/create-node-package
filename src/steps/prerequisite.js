@@ -12,9 +12,9 @@ export default new Listr([
 						title: 'Check if git is available',
 						task: async () => {
 							try {
-								await execute('git', ['--version'])
-							} catch(e) {
-								throw new Error(e)
+								await execute('git', ['--version']);
+							} catch (e) {
+								throw new Error(e);
 							}
 						}
 					},
@@ -23,8 +23,8 @@ export default new Listr([
 						task: async () => {
 							try {
 								await execute('gh', ['--version']);
-							} catch(e) {
-								throw new Error(e)
+							} catch (e) {
+								throw new Error(e);
 							}
 						}
 					}
