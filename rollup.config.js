@@ -64,7 +64,10 @@ export default [
 			'stream',
 			'util',
 			'buffer',
-			'listr'
+			'listr',
+			'npm-registry-client',
+			'validator',
+			'inquirer'
 		]
 	}
 ];
