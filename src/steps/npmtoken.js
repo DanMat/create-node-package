@@ -51,20 +51,25 @@ export default async () => {
 			type: 'input',
 			name: 'registry',
 			message: 'npm registry',
-			default: resolveUndefined(
-				await execute('npm', ['config', 'get', 'registry'])
-			),
+			default:
+				resolveUndefined(await execute('npm', ['config', 'get', 'registry'])) ||
+				'https://registry.npmjs.com/',
 			validate: str =>
 				isURL(str, {
 					protocols: ['http', 'https'],
 					require_protocol: true
 				})
+					? true
+					: 'Not a valid url. Needs to start with https or http.'
 		},
 		{
 			type: 'input',
 			name: 'username',
 			message: 'npm username',
-			validate: str => str.length > 0
+			validate: str =>
+				str.length > 0 && !/[A-Z]/.test(str)
+					? true
+					: 'Caps are not allowed in the username'
 		},
 		{
 			type: 'password',
@@ -79,7 +84,7 @@ export default async () => {
 			default: resolveUndefined(
 				await execute('npm', ['config', 'get', 'email'])
 			),
-			validate: str => isEmail(str)
+			validate: str => (isEmail(str) ? true : 'Not a valid email id')
 		}
 	]);
 
