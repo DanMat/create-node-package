@@ -5,7 +5,7 @@ const promisifyExec = promisify(exec);
 
 export const execute = async (command, args = []) => {
 	try {
-		const { stdout } = promisifyExec(`${command} ${args.join(' ')}`);
+		const { stdout } = await promisifyExec(`${command} ${args.join(' ')}`);
 		return stdout;
 	} catch(e) {
 		throw new Error(e.toString())
