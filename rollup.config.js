@@ -45,6 +45,20 @@ export default [
 				filename: 'dist/bundle-visualizer-cjs.html'
 			})
 		],
-		external: ['npm-registry-client', 'inquirer']
+		/**
+		 * In case of the following warning
+		 *
+		 * Plugin node-resolve: Could not resolve import ... in ... is not defined by "exports" in undefined
+		 * Plugin node-resolve: Could not resolve import "undefined" in ".". Package subpath ... is not defined by "exports" in undefined
+		 * Unresolved dependencies
+		 *
+		 * Add the external package to this list.
+		 */
+		external: [
+			'listr',
+			'npm-registry-client',
+			'validator',
+			'inquirer'
+		]
 	}
 ];
