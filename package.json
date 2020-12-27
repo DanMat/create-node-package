@@ -67,11 +67,13 @@
     "current node"
   ],
   "dependencies": {
+    "any-observable": "^0.5.1",
     "commander": "^6.2.1",
     "figlet": "^1.5.0",
     "inquirer": "^7.3.3",
     "listr": "^0.14.3",
     "npm-registry-client": "^8.6.0",
+    "rollup-plugin-polyfill": "^3.0.0",
     "validator": "^13.5.2"
   }
 }

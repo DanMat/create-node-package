@@ -4,6 +4,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 
 import externals from 'rollup-plugin-node-externals';
+import polyfill from 'rollup-plugin-polyfill';
 import { terser } from 'rollup-plugin-terser';
 import visualizer from 'rollup-plugin-visualizer';
 
@@ -40,6 +41,10 @@ export default [
 		plugins: [
 			resolvePlugin,
 			babelPlugin,
+			/**
+			 * Polyfill for listr which uses rxjs
+			 */
+			polyfill(['any-observable/register/rxjs']),
 			json(),
 			externals(),
 			commonjs(),
@@ -48,6 +53,6 @@ export default [
 				filename: 'dist/bundle-visualizer-cjs.html'
 			})
 		],
-		external: ['listr', 'npm-registry-client']
+		external: ['npm-registry-client']
 	}
 ];
