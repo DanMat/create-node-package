@@ -52,7 +52,6 @@ export default [
 			visualizer({
 				filename: 'dist/bundle-visualizer-cjs.html'
 			})
-		],
-		external: ['npm-registry-client']
+		]
 	}
 ];
