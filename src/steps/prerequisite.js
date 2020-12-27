@@ -1,8 +1,8 @@
-import Listr from 'listr';
+const Listr = require('listr');
 
-import { execute } from '../helpers/cmd';
+const { execute } = require('../helpers/cmd');
 
-export default new Listr([
+module.exports = new Listr([
 	{
 		title: 'Checking prerequisites to install the template',
 		task: () =>

@@ -1,9 +1,9 @@
-import { promisify } from 'util';
-import { exec } from 'child_process';
+const { promisify } = require('util');
+const { exec } = require('child_process');
 
 const promisifyExec = promisify(exec);
 
-export const execute = async (command, args = []) => {
+module.exports.execute = async (command, args = []) => {
 	try {
 		const { stdout } = await promisifyExec(`${command} ${args.join(' ')}`);
 		return stdout.trim();

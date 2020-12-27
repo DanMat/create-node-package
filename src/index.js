@@ -1,13 +1,13 @@
-import figlet from 'figlet';
-import { Command } from 'commander';
+const figlet = require('figlet');
+const { Command } = require('commander');
 
-import prerequisite from './steps/prerequisite';
-import getUsersNPMToken from './steps/npmtoken';
+const prerequisite = require('./steps/prerequisite');
+const getUsersNPMToken = require('./steps/npmtoken');
 
 const LOGO = 'CREATE DEPLOY NODE PACKAGES';
 const FONT_STYLE = 'contessa';
 
-export const runCLI = async args => {
+module.exports.runCLI = async args => {
 	console.log(figlet.textSync(LOGO, FONT_STYLE));
 
 	const command = new Command();

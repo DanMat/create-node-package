@@ -1,9 +1,9 @@
-import inquirer from 'inquirer';
-import isEmail from 'validator/lib/isEmail';
-import isURL from 'validator/lib/isURL';
-import RegistryClient from 'npm-registry-client';
+const inquirer = require('inquirer');
+const isEmail = require('validator/lib/isEmail');
+const isURL = require('validator/lib/isURL');
+const RegistryClient = require('npm-registry-client');
 
-import { execute } from '../helpers/cmd';
+const { execute } = require('../helpers/cmd');
 
 const ERROR_MESSAGE = `
 We regret to inform you that we failed to create a NPM token for you.
@@ -41,7 +41,7 @@ const getNPMToken = ({ registry, username, email, password }) =>
 
 const resolveUndefined = (str = '') => (str === 'undefined' ? '' : str);
 
-export default async () => {
+module.exports = async () => {
 	console.log(
 		"\nLet's generate a NPM token. Which we will use to publish your package.\n"
 	);

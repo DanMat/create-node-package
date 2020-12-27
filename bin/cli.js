@@ -1,4 +1,4 @@
-import { runCLI } from '../src';
+const { runCLI } = require('../src');
 
 runCLI(process.argv).catch(err => {
 	console.error(err);
