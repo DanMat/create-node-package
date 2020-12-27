@@ -2,6 +2,7 @@ import babel from '@rollup/plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 
+import externals from 'rollup-plugin-node-externals';
 import { terser } from 'rollup-plugin-terser';
 import visualizer from 'rollup-plugin-visualizer';
 
@@ -37,37 +38,13 @@ export default [
 		plugins: [
 			resolvePlugin,
 			babelPlugin,
+			externals(),
 			commonjs(),
 			terser(),
 			visualizer({
 				filename: 'dist/bundle-visualizer-cjs.html'
 			})
 		],
-		/**
-		 * In case of the following warning
-		 *
-		 * Plugin node-resolve: Could not resolve import ... in ... is not defined by "exports" in undefined
-		 * Plugin node-resolve: Could not resolve import "undefined" in ".". Package subpath ... is not defined by "exports" in undefined
-		 * Unresolved dependencies
-		 *
-		 * Add the external package to this list.
-		 */
-		external: [
-			'child_process',
-			'fs',
-			'path',
-			'os',
-			'https',
-			'readline',
-			'zlib',
-			'events',
-			'stream',
-			'util',
-			'buffer',
-			'listr',
-			'npm-registry-client',
-			'validator',
-			'inquirer'
-		]
+		external: ['npm-registry-client', 'inquirer']
 	}
 ];
