@@ -8,6 +8,6 @@ module.exports.execute = async (command, args = []) => {
 		const { stdout } = await promisifyExec(`${command} ${args.join(' ')}`);
 		return stdout.trim();
 	} catch (e) {
-		throw new Error(e.toString());
+		throw e;
 	}
 };

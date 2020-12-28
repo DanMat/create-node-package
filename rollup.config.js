@@ -43,7 +43,7 @@ export default [
 			json(),
 			externals(),
 			commonjs({
-				'dynamicRequireTargets' : [
+				dynamicRequireTargets: [
 					'node_modules/listr2/dist/*/*.js',
 					'node_modules/readable-stream/lib/*.js',
 					'node_modules/sshpk/lib/*/*js',
