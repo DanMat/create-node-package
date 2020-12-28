@@ -1,4 +1,4 @@
-const inquirer = require('inquirer');
+const { prompt } = require('enquirer');
 const isEmail = require('validator/lib/isEmail');
 const isURL = require('validator/lib/isURL');
 const RegistryClient = require('npm-registry-client');
@@ -46,7 +46,7 @@ module.exports = async () => {
 		"\nLet's generate a NPM token. Which we will use to publish your package.\n"
 	);
 
-	const prompts = inquirer.prompt([
+	const response = await prompt([
 		{
 			type: 'input',
 			name: 'registry',
@@ -89,7 +89,7 @@ module.exports = async () => {
 	]);
 
 	try {
-		const token = await getNPMToken(await prompts);
+		const token = await getNPMToken(response);
 		console.log('Secured a NPM token for deploying the package.');
 		return token;
 	} catch (e) {

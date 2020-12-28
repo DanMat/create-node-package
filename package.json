@@ -69,8 +69,8 @@
   ],
   "dependencies": {
     "commander": "^6.2.1",
+    "enquirer": "^2.3.6",
     "figlet": "^1.5.0",
-    "inquirer": "^7.3.3",
     "listr2": "^3.2.3",
     "npm-registry-client": "^8.6.0",
     "validator": "^13.5.2"
