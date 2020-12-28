@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 const { runCLI } = require('../src');
 
 runCLI(process.argv).catch(err => {
