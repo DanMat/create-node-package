@@ -2,9 +2,9 @@
   "name": "create-deploy-node-packages",
   "version": "0.0.1",
   "description": "Generates a node module template with CHANGELOG, build, deployment, jest, linter and more. All configured and ready to use.",
-  "main": "dist/bundle.cjs.js",
+  "main": "bin/cli.js",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node bin/cli.js",
     "lint": "./node_modules/.bin/eslint \"**/*.js\"",
     "build": "./node_modules/.bin/rollup -c",
     "dev": "./node_modules/.bin/rollup -c -w",
@@ -15,10 +15,11 @@
     "clean": "rm -rf dist/*"
   },
   "files": [
-    "dist/bundle.cjs.js"
+    "bin/cli.js",
+    "src"
   ],
   "bin": {
-    "create-deploy-node-packages": "dist/bundle.cjs.js"
+    "create-deploy-node-packages": "bin/cli.js"
   },
   "lint-staged": {
     "src/**/*.{js,json}": [
@@ -67,13 +68,11 @@
     "current node"
   ],
   "dependencies": {
-    "any-observable": "^0.5.1",
     "commander": "^6.2.1",
     "figlet": "^1.5.0",
     "inquirer": "^7.3.3",
     "listr": "^0.14.3",
     "npm-registry-client": "^8.6.0",
-    "rollup-plugin-polyfill": "^3.0.0",
     "validator": "^13.5.2"
   }
 }
