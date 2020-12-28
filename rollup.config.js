@@ -42,11 +42,19 @@ export default [
 			babelPlugin,
 			json(),
 			externals(),
-			commonjs(),
+			commonjs({
+				'dynamicRequireTargets' : [
+					'node_modules/listr2/dist/*/*.js',
+					'node_modules/readable-stream/lib/*.js',
+					'node_modules/sshpk/lib/*/*js',
+					'node_modules/sshpk/lib/*js'
+				]
+			}),
 			terser(),
 			visualizer({
 				filename: 'dist/bundle-visualizer-cjs.html'
 			})
-		]
+		],
+		external: ['resolve']
 	}
 ];
