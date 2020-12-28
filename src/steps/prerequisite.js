@@ -1,4 +1,4 @@
-const Listr = require('listr');
+const { Listr } = require('listr2');
 
 const { execute } = require('../helpers/cmd');
 

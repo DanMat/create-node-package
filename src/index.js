@@ -2,7 +2,8 @@ const figlet = require('figlet');
 const { Command } = require('commander');
 
 const prerequisite = require('./steps/prerequisite');
-const getUsersNPMToken = require('./steps/npmtoken');
+const getUsersNPMToken = require('./steps/npm-token');
+const createGithubRepo = require('./steps/create-repo');
 
 const LOGO = 'CREATE DEPLOY NODE PACKAGES';
 const FONT_STYLE = 'contessa';
@@ -25,5 +26,7 @@ module.exports.runCLI = async args => {
 		npmToken = await getUsersNPMToken();
 	}
 
-	console.log(npmToken);
+	const repoName = await createGithubRepo();
+
+	console.log(npmToken, repoName);
 };
