@@ -1,42 +1,46 @@
 const { Listr } = require('listr2');
+const ListrError = require('../helpers/custom-error');
 
 const { execute } = require('../helpers/cmd');
 
-module.exports = async () => {
-	let repoName;
-
-	const task = new Listr([
-		{
-			title: "Let's start creating a github repository for our template.",
-			task: async (_ctx, subTask) => {
-				const prompts = await subTask.prompt([
+module.exports = new Listr([
+	{
+		title: 'Github Information',
+		task: async (ctx, opt) => {
+			ctx.gitRepoName = (
+				await opt.prompt([
 					{
 						type: 'input',
 						name: 'gitRepoName',
-						message: 'Github repository name',
+						message: 'Name for your repository',
 						validate: async str => {
 							try {
-								const a = await execute('gh', [
+								ctx.gitRepoUrl = await execute('gh', [
 									'repo',
 									'create',
 									str,
-									'--public',
-									'-y'
+									'--public'
 								]);
-								console.log(a);
 								return true;
 							} catch (e) {
-								return e.toString();
+								throw new ListrError(e.message);
 							}
 						}
 					}
-				]);
-				repoName = prompts.gitRepoName;
+				])
+			).gitRepoName;
+		},
+		options: { persistentOutput: true }
+	},
+	{
+		title: 'Cloning Repository',
+		task: async ctx => {
+			try {
+				await execute('gh', ['repo', 'clone', ctx.gitRepoUrl]);
+			} catch (e) {
+				throw new ListrError(e.message);
 			}
-		}
-	]);
-
-	await task.run();
-
-	return repoName;
-};
+		},
+		options: { persistentOutput: true }
+	}
+]);

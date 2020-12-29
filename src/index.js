@@ -20,13 +20,18 @@ module.exports.runCLI = async args => {
 
 	let { npm_token: npmToken } = command.opts();
 
+	console.log('\nChecking prerequisites to install the template\n');
 	await prerequisite.run();
 
 	if (!npmToken) {
-		npmToken = await getUsersNPMToken();
+		console.log(
+			"\nLet's generate a NPM token. Which we will use to publish your package.\n"
+		);
+		npmToken = (await getUsersNPMToken.run()).token;
 	}
 
-	const repoName = await createGithubRepo();
+	console.log("\nLet's start creating a github repository for our template.\n");
+	const repoName = (await createGithubRepo.run()).gitRepoUrl;
 
 	console.log(npmToken, repoName);
 };

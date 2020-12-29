@@ -1,8 +1,9 @@
-const { prompt } = require('enquirer');
+const { Listr } = require('listr2');
 const isEmail = require('validator/lib/isEmail');
 const isURL = require('validator/lib/isURL');
 const RegistryClient = require('npm-registry-client');
 
+const ListrError = require('../helpers/custom-error');
 const { execute } = require('../helpers/cmd');
 
 const ERROR_MESSAGE = `
@@ -41,59 +42,64 @@ const getNPMToken = ({ registry, username, email, password }) =>
 
 const resolveUndefined = (str = '') => (str === 'undefined' ? '' : str);
 
-module.exports = async () => {
-	console.log(
-		"\nLet's generate a NPM token. Which we will use to publish your package.\n"
-	);
-
-	const response = await prompt([
-		{
-			type: 'input',
-			name: 'registry',
-			message: 'npm registry',
-			default:
-				resolveUndefined(await execute('npm', ['config', 'get', 'registry'])) ||
-				'https://registry.npmjs.com/',
-			validate: str =>
-				isURL(str, {
-					protocols: ['http', 'https'],
-					require_protocol: true
-				})
-					? true
-					: 'Not a valid url. Needs to start with https or http.'
+module.exports = new Listr([
+	{
+		title: 'NPM information',
+		task: async (ctx, opt) => {
+			ctx.npmInfo = await opt.prompt([
+				{
+					type: 'input',
+					name: 'registry',
+					message: 'npm registry',
+					default:
+						resolveUndefined(
+							await execute('npm', ['config', 'get', 'registry'])
+						) || 'https://registry.npmjs.com/',
+					validate: str =>
+						isURL(str, {
+							protocols: ['http', 'https'],
+							require_protocol: true
+						})
+							? true
+							: 'Not a valid url. Needs to start with https or http.'
+				},
+				{
+					type: 'input',
+					name: 'username',
+					message: 'npm username',
+					validate: str =>
+						str.length > 0 && !/[A-Z]/.test(str)
+							? true
+							: 'Caps are not allowed in the username'
+				},
+				{
+					type: 'password',
+					name: 'password',
+					message: 'npm password',
+					validate: str => str.length > 0
+				},
+				{
+					type: 'input',
+					name: 'email',
+					message: 'npm email',
+					default: resolveUndefined(
+						await execute('npm', ['config', 'get', 'email'])
+					),
+					validate: str => (isEmail(str) ? true : 'Not a valid email id')
+				}
+			]);
 		},
-		{
-			type: 'input',
-			name: 'username',
-			message: 'npm username',
-			validate: str =>
-				str.length > 0 && !/[A-Z]/.test(str)
-					? true
-					: 'Caps are not allowed in the username'
+		options: { persistentOutput: true }
+	},
+	{
+		title: 'Securing a NPM token',
+		task: async ctx => {
+			try {
+				ctx.token = await getNPMToken(ctx.npmInfo);
+			} catch (e) {
+				throw new ListrError(ERROR_MESSAGE);
+			}
 		},
-		{
-			type: 'password',
-			name: 'password',
-			message: 'npm password',
-			validate: str => str.length > 0
-		},
-		{
-			type: 'input',
-			name: 'email',
-			message: 'npm email',
-			default: resolveUndefined(
-				await execute('npm', ['config', 'get', 'email'])
-			),
-			validate: str => (isEmail(str) ? true : 'Not a valid email id')
-		}
-	]);
-
-	try {
-		const token = await getNPMToken(response);
-		console.log('Secured a NPM token for deploying the package.');
-		return token;
-	} catch (e) {
-		console.log(e);
-		throw new Error(ERROR_MESSAGE);
+		options: { persistentOutput: true }
 	}
-};
+]);
