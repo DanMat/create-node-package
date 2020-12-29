@@ -28,8 +28,8 @@ const getNPMToken = ({ registry, username, email, password }) =>
 				auth: {
 					username,
 					email,
-					password
-				}
+					password,
+				},
 			},
 			(err, data) => {
 				const { token } = data || {};
@@ -55,28 +55,28 @@ module.exports = new Listr([
 						resolveUndefined(
 							await execute('npm', ['config', 'get', 'registry'])
 						) || 'https://registry.npmjs.com/',
-					validate: str =>
+					validate: (str) =>
 						isURL(str, {
 							protocols: ['http', 'https'],
-							require_protocol: true
+							require_protocol: true,
 						})
 							? true
-							: 'Not a valid url. Needs to start with https or http.'
+							: 'Not a valid url. Needs to start with https or http.',
 				},
 				{
 					type: 'input',
 					name: 'username',
 					message: 'npm username',
-					validate: str =>
+					validate: (str) =>
 						str.length > 0 && !/[A-Z]/.test(str)
 							? true
-							: 'Caps are not allowed in the username'
+							: 'Caps are not allowed in the username',
 				},
 				{
 					type: 'password',
 					name: 'password',
 					message: 'npm password',
-					validate: str => str.length > 0
+					validate: (str) => str.length > 0,
 				},
 				{
 					type: 'input',
@@ -85,20 +85,20 @@ module.exports = new Listr([
 					default: resolveUndefined(
 						await execute('npm', ['config', 'get', 'email'])
 					),
-					validate: str => (isEmail(str) ? true : 'Not a valid email id')
-				}
+					validate: (str) => (isEmail(str) ? true : 'Not a valid email id'),
+				},
 			]);
-		}
+		},
 	},
 	{
 		title: 'Securing a NPM token',
-		task: async ctx => {
+		task: async (ctx) => {
 			try {
 				ctx.token = await getNPMToken(ctx.npmInfo);
 			} catch (e) {
 				throw new ListrError(ERROR_MESSAGE);
 			}
 		},
-		enabled: ({ npmInfo }) => !!npmInfo
-	}
+		enabled: ({ npmInfo }) => !!npmInfo,
+	},
 ]);

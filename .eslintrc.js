@@ -4,8 +4,8 @@ module.exports = {
 		ecmaVersion: 2019,
 		sourceType: 'module',
 		ecmaFeatures: {
-			impliedStrict: true
-		}
+			impliedStrict: true,
+		},
 	},
 	rules: {
 		// Prefer single quotes for strings
@@ -17,8 +17,8 @@ module.exports = {
 			'error',
 			{
 				varsIgnorePattern: '^(_|unused-|[iI]gnored)',
-				argsIgnorePattern: '^(_|unused-|[iI]gnored)'
-			}
+				argsIgnorePattern: '^(_|unused-|[iI]gnored)',
+			},
 		],
 
 		// This is okay with us stylistically, so disable it
@@ -37,8 +37,8 @@ module.exports = {
 			2,
 			{
 				ignoreUrls: true,
-				ignoreComments: false
-			}
+				ignoreComments: false,
+			},
 		],
 
 		// We use underscore to turn off the unused var linter
@@ -58,14 +58,14 @@ module.exports = {
 		'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
 
 		// Prevent logs but allow info, error and warning.
-		'no-console': ['off']
+		'no-console': ['off'],
 	},
 	env: {
 		browser: true,
 		commonjs: true,
 		node: true,
 		es6: true,
-		jest: true
+		jest: true,
 	},
 	globals: {
 		describe: false,
@@ -73,6 +73,6 @@ module.exports = {
 		it: false,
 		mount: false,
 		render: false,
-		shallow: false
-	}
+		shallow: false,
+	},
 };
