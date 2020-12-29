@@ -1,7 +1,7 @@
 const { Listr } = require('listr2');
 const ListrError = require('../helpers/custom-error');
 
-const { execute, executeInRepo } = require('../helpers/cmd');
+const { execute } = require('../helpers/cmd');
 
 module.exports = new Listr([
 	{
@@ -12,47 +12,32 @@ module.exports = new Listr([
 					type: 'input',
 					name: 'name',
 					message: 'Name for your repository',
-					validate: async str => {
+					validate: async (str) => {
 						try {
 							ctx.gitUrl = await execute('gh', [
 								'repo',
 								'create',
 								str,
 								'--public',
-								'-y'
+								'-y',
 							]);
 							return true;
 						} catch (e) {
 							throw new ListrError(e.message);
 						}
-					}
-				}
+					},
+				},
 			]);
-		}
+		},
 	},
 	{
 		title: 'Cloning Repository',
-		task: async ctx => {
+		task: async (ctx) => {
 			try {
 				await execute('gh', ['repo', 'clone', ctx.gitUrl]);
 			} catch (e) {
 				throw new ListrError(e.message);
 			}
-		}
+		},
 	},
-	{
-		title: 'Setting NPM token to repository',
-		task: async ctx => {
-			try {
-				await executeInRepo(ctx.gitRepoName, 'gh', [
-					'secret',
-					'set',
-					'NPM_TOKEN',
-					`-b"${ctx.npmToken}"`
-				]);
-			} catch (e) {
-				throw new ListrError(e.message);
-			}
-		}
-	}
 ]);

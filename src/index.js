@@ -8,7 +8,7 @@ const createGithubRepo = require('./steps/create-repo');
 const LOGO = 'CREATE DEPLOY NODE PACKAGES';
 const FONT_STYLE = 'contessa';
 
-module.exports.runCLI = async args => {
+module.exports.runCLI = async (args) => {
 	console.log(figlet.textSync(LOGO, FONT_STYLE));
 
 	const command = new Command();
@@ -32,7 +32,7 @@ module.exports.runCLI = async args => {
 	}
 
 	console.log("\nLet's start creating a github repository for our template.\n");
-	const { gitRepoName } = await createGithubRepo.run({ npmToken });
+	const { gitRepoName } = await createGithubRepo.run();
 
 	console.log(npmToken, gitRepoName);
 };
