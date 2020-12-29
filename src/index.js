@@ -28,10 +28,11 @@ module.exports.runCLI = async args => {
 			"\nLet's generate a NPM token. Which we will use to publish your package.\n"
 		);
 		npmToken = (await getUsersNPMToken.run()).token;
+		console.log('\nGenerated a NPM token', npmToken);
 	}
 
 	console.log("\nLet's start creating a github repository for our template.\n");
-	const repoName = (await createGithubRepo.run()).gitRepoUrl;
+	const { gitRepoName } = await createGithubRepo.run({ npmToken });
 
-	console.log(npmToken, repoName);
+	console.log(npmToken, gitRepoName);
 };

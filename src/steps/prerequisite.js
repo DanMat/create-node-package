@@ -15,8 +15,7 @@ module.exports = new Listr([
 			} catch (e) {
 				throw new ListrError(`git ${ERROR_MESSAGE} https://git-scm.com/`);
 			}
-		},
-		options: { persistentOutput: true }
+		}
 	},
 	{
 		title: 'Check if gh is available',
@@ -28,7 +27,6 @@ module.exports = new Listr([
 					`gh ${ERROR_MESSAGE} https://cli.github.com/manual/`
 				);
 			}
-		},
-		options: { persistentOutput: true }
+		}
 	}
 ]);

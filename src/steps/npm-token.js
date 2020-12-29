@@ -88,8 +88,7 @@ module.exports = new Listr([
 					validate: str => (isEmail(str) ? true : 'Not a valid email id')
 				}
 			]);
-		},
-		options: { persistentOutput: true }
+		}
 	},
 	{
 		title: 'Securing a NPM token',
@@ -100,6 +99,6 @@ module.exports = new Listr([
 				throw new ListrError(ERROR_MESSAGE);
 			}
 		},
-		options: { persistentOutput: true }
+		enabled: ({ npmInfo }) => !!npmInfo
 	}
 ]);
