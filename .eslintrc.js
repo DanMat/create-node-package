@@ -75,4 +75,11 @@ module.exports = {
 		render: false,
 		shallow: false,
 	},
+	settings: {
+		// Fix annoying warning for non React projects
+		// The number is from \node_modules\eslint-plugin-react\lib\util\version.js
+		react: {
+			version: '999.999.999',
+		},
+	},
 };
