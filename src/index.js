@@ -4,6 +4,7 @@ const { Command } = require('commander');
 const prerequisite = require('./steps/prerequisite');
 const getUsersNPMToken = require('./steps/npm-token');
 const createGithubRepo = require('./steps/create-repo');
+const generateTemplate = require('./steps/generate-template');
 
 const LOGO = 'CREATE DEPLOY NODE PACKAGES';
 const FONT_STYLE = 'contessa';
@@ -16,23 +17,36 @@ module.exports.runCLI = async (args) => {
 		'-n, --npm_token <token>',
 		'Create a NPM token using this doc https://docs.npmjs.com/creating-and-viewing-access-tokens'
 	);
+	command.option(
+		'-l, --local',
+		'Creates a copy of the template to your local folder'
+	);
 	command.parse(args);
 
 	let { npm_token: npmToken } = command.opts();
+	const { local } = command.opts();
 
-	console.log('\nChecking prerequisites to install the template\n');
-	await prerequisite.run();
+	if (local) {
+		await generateTemplate.run({ local });
+	} else {
+		console.log('\nChecking prerequisites to install the template\n');
+		await prerequisite.run();
 
-	if (!npmToken) {
+		if (!npmToken) {
+			console.log(
+				"\nLet's generate a NPM token. Which we will use to publish your package.\n"
+			);
+			npmToken = (await getUsersNPMToken.run()).token;
+			console.log('\nGenerated a NPM token', npmToken);
+		}
+
 		console.log(
-			"\nLet's generate a NPM token. Which we will use to publish your package.\n"
+			"\nLet's start creating a github repository for our template.\n"
 		);
-		npmToken = (await getUsersNPMToken.run()).token;
-		console.log('\nGenerated a NPM token', npmToken);
+		const { gitRepoName } = await createGithubRepo.run();
+
+		console.log("\nLet's start generating the template\n");
+
+		console.log(npmToken, gitRepoName);
 	}
-
-	console.log("\nLet's start creating a github repository for our template.\n");
-	const { gitRepoName } = await createGithubRepo.run();
-
-	console.log(npmToken, gitRepoName);
 };
